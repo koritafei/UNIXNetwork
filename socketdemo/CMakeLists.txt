@@ -1,0 +1,6 @@
+add_executable(echosrv echosrv.cc)
+add_executable(echocli echocli.cc)
+add_executable(peerserv peerserv.cc)
+add_executable(peerclient peerclient.cc)
+add_executable(readndemo readndemo.cc)
+add_executable(writendemo writendemo.cc)
