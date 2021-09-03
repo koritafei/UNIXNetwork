@@ -489,7 +489,46 @@ int main(int argc, char **argv) {
 2. 包尾增加`\r\n(ftp)`;
 3. 包头增加包体长度；
 4. 更复杂的应用层协议。
+`recv`系统调用, 只能用于网络`IO`:
+```cpp
+#include <sys/socket.h>
 
+ssize_t recv(int socket, void *buffer, size_t length, int flags);
+ssize_t recvfrom(int socket, void *restrict buffer, size_t length, int flags, struct sockaddr *restrict address, socklen_t *restrict address_len);
+ssize_t recvmsg(int socket, struct msghdr *message, int flags);
+```
+`TCP`状态：
+![tcp状态](./images/TCP状态转换.png)
+![tcpclosing](./images/TCPCLOSING.png)
+`TIME_WAIT`状态： 主动断开连接的一方存在。
+#### `SIGPIPE`信号
+1. 向一个已经接受了`FIN`的套接字中写是允许的，接收到`FIN`表示对方不再接收数据；
+2. 如果接收到`RST`段后，如果再调用`write`就会产生`SIGPIPE`信号。处理方式：忽略(`signal(SIGPIPE, SIG_IGN)`).
+### `I/O`模型
+![阻塞IO模型](./images/阻塞IO模型.png)
+![非阻塞模式](./images/非阻塞模式.png)
+![IO多路复用](./images/IO多路复用.png)
+![信号驱动IO](./images/信号驱动IO.png)
+![异步IO](./images/异步IO.png)
+```cpp
+#include <sys/select.h>
+
+/**
+ * @brief select IO多路复用
+ *
+ * @param __nfds
+ * @param __readfds
+ * @param __writefds
+ * @param __exceptfds
+ * @param __timeout
+ * @return int
+ */
+int select(int __nfds,
+           fd_set *__restrict __readfds,
+           fd_set *__restrict __writefds,
+           fd_set *__restrict __exceptfds,
+           struct timeval *__restrict __timeout);
+```
 
 
 
