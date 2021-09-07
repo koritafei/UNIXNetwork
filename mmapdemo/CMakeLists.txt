@@ -1,0 +1,5 @@
+add_executable(mmapdemo mmapdemo.cc)
+add_executable(mmap_read mmap_read.cc)
+add_executable(shmgetdemo shmgetdemo.cc)
+add_executable(shmdtdemo shmdtdemo.cc)
+add_executable(shm_read shm_read.cc)
